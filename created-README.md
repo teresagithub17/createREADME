@@ -5,10 +5,10 @@
 ## Description
   This is to generate an app for javascript test
   
-  [A deployed version can be viewed here.](www.github.com)
+  [A deployed version can be viewed here.](github.com)
   
 ---
-## Contents
+## Table of Contents
 1. [Usage](#about)
     * [User Story](#userStory)
     * [Acceptance criteria](#acceptanceCriteria)
@@ -21,7 +21,7 @@
 6. [Authors and acknowledgment](#authors%20and%20acknowledgment)
 ---
 ## About
-  ##### This project can help you to provide an app for the quiz
+  #### This project can help you to provide an app for the quiz
 ---
 ## User Story
   
@@ -30,7 +30,7 @@
   
   
 ---
-## Visuals
+## Screenshot
   ![]()
 ---
 ## Installation:
