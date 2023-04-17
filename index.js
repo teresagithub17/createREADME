@@ -3,7 +3,10 @@ const inquirer = require('inquirer');
 const fs = require('fs');
 const util = require("util");
 
-const writeFileAsync = util.promisify(fs.writeFile)
+const writeFileAsync = util.promisify(fs.writeFile);
+const generateMarkdown = require("./utils/generateMarkdown");
+
+
 
 // TODO: Create an array of questions for user input
 const questions = [
@@ -21,6 +24,16 @@ const questions = [
       type: "input",
       message: "Please tell us about your project:",
       name: "about",
+    },
+    {
+      type: "input",
+      message: "Enter the user story?",
+      name: "userStory",
+    },
+    {
+      type: "input",
+      message: "Enter the acceptance criteria?",
+      name: "acceptanceCriteria",
     },
     {
       type: "input",
@@ -79,79 +92,7 @@ const questions = [
   ];
 
 // TODO: Create a function to write README file
-function writeToFile(data) {
-    return `
-  
-# ${data.title}
 
-## Description
-  ${data.description}
-  
-  [A deployed version can be viewed here.](${data.URL})
-  
----
-## Table of Contents
-1. [Usage](#about)
-    * [User Story](#userStory)
-    * [Acceptance criteria](#acceptanceCriteria)
-    * [Visuals](#visuals)
-    * [Build](#build)
-2. [Installation](#installation)
-3. [License](#license)
-4. [Contributing](#contributing)
-5. [Tests](#tests)
-6. [Authors and acknowledgment](#authors%20and%20acknowledgment)
----
-## About
-  #### ${data.about}
----
-## User Story
-  
----
-## Acceptance Criteria
-  
-  
----
-## Screenshot
-  ![]()
----
-## Installation:
-  ${data.installation}
-  To clone the repo:
-  
-      git clone ${data.clone}
-  
----
-## License
-  License used for this project - ${data.license}
-  ${data.licenseBadge}
-  * For more information on license types, please reference this [website](https: //choosealicense.com/](https://choosealicense.com/).
----
-## Contributing
-  
-  To contribute to this application, create a pull request.
-  Here are the steps needed for doing that:
-  - Fork the repo
-  - Create a feature branch (git checkout -b NAME-HERE)
-  - Commit your new feature (git commit -m 'Add some feature')
-  - Push your branch (git push)
-  - Create a new Pull Request
-  Following a code review, your feature will be merged.
----
-## Tests
-  * ${data.test}
----
-## Authors and Acknowledgments
-  * ${data.author}
----
-## Contact Information
-If you have further questions please reach out to the following contact information:
-* GitHub Username: ${data.userName}
-* GitHub Email: ${data.userEmail}
-  
-`;
-
-}
 
 function licenseBadge(value) {
     if (value === "GNU AGPLv3") {
@@ -168,14 +109,15 @@ function licenseBadge(value) {
       return "[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)";
     } else {
       return "[![License](https://img.shields.io/badge/License-Boost%201.0-lightblue.svg)](https://www.boost.org/LICENSE_1_0.txt)";
-    }
+    } 
+    
   }
 
 // TODO: Create a function to initialize app
 async function init() {
   const answers = await inquirer.prompt(questions);
   answers.licenseBadge = licenseBadge(answers.license);
-  let readMeData = writeToFile(answers);
+  let readMeData = generateMarkdown(answers);
   await writeFileAsync("created-README.md", readMeData);
   console.log(answers)
   console.log('Success! Your README.md file has been created!')
